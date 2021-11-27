@@ -4,27 +4,39 @@ import './index.css';
 
 // interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> { }
 // Propsとstateを表している
-class Square extends React.Component<{value: any}, { value: any }> {
-  constructor(props:any) {
-    super(props);
-    this.state = {
-      value:null,
-    }
-  }
+class Square extends React.Component<{value: any , onClick: any}, { value: any }> {
   render() {
     return (
-      <button className="square" 
-        onClick= {() => this.setState({value: 'X'})}
+      <button 
+        className="square" 
+        onClick= {() => this.props.onClick()}
       >
-        {this.state.value}
+        {this.props.value}
       </button>
     );
   }
 }
 
-class Board extends React.Component {
+class Board extends React.Component<{props: any}, { squares: any[] }> {
+  constructor(props:any) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+    }
+  };
+
+  handleClick(i:number) {
+    const squares = this.state.squares.slice();
+    squares[i] = 'X';
+    this.setState({squares:squares})
+  }
   renderSquare(i: number) {
-    return <Square value={i} />;
+    return(
+      <Square 
+        value={this.state.squares[i]} 
+        onClick={() => this.handleClick(i)}
+      />
+    );
   }
   render() {
     const status = 'Next player: x';
@@ -57,7 +69,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board />
+          <Board props={undefined} />
         </div>
         <div className="game-info">
           <div>{/* status */}</div>
