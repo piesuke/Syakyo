@@ -2,19 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-// interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> { }
-// Propsとstateを表している
-class Square extends React.Component<{value: any , onClick: any}, { value: any }> {
-  render() {
-    return (
-      <button 
-        className="square" 
-        onClick= {() => this.props.onClick()}
-      >
-        {this.props.value}
-      </button>
-    );
-  }
+function Square(props: { onClick: any; value: boolean }) {
+  return (
+    <button className='square' onClick={props.onClick}>
+      {props.value}
+    </button>
+  )
 }
 
 class Board extends React.Component<{props: any}, { squares: any[] }> {
