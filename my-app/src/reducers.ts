@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { CLICK_SQUARE } from "./action";
+import { CLICK_SQUARE, JUMP_TO_PAST } from "./action";
 
 const initialState = {
     history: [
@@ -11,7 +11,7 @@ const initialState = {
     xIsNext: true
 };
 
-function game(state = initialState, action: { type: any; index: number; }) {
+function game(state = initialState, action: { type: any; index: number; step: number;}) {
     switch(action.type) {
         case CLICK_SQUARE:
             const history = state.history.slice(0, state.stepNumber + 1)
@@ -31,6 +31,13 @@ function game(state = initialState, action: { type: any; index: number; }) {
                 xIsNext: !state.xIsNext
             }
 
+        case JUMP_TO_PAST:
+            return {
+                // ToDo ここの...stateの意味わからん
+                ...state,
+                stepNumber: action.step,
+                xIsNext: (action.step % 2) === 0
+            }
         default:
             return state;
     }
